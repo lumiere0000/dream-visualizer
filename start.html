@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Dream</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&family=Fredoka+One&family=Pacifico&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #66D0FF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
+            font-family: 'Fredoka One', cursive;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            z-index: 10;
+            position: relative;
+            text-shadow: 4px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .start-button {
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            border: none;
+            background: #ff9800;
+            color: white;
+            border-radius: 10px;
+            transition: background 0.3s;
+            z-index: 10;
+            position: relative;
+        }
+
+        .start-button:hover {
+            background: #e68900;
+        }
+
+        /* CLOUD STYLING */
+        .cloud {
+            position: absolute;
+            background: #ECEFF1;
+            width: 280px;
+            height: 100px;
+            border-radius: 100px;
+            box-shadow: 10px 10px rgba(0, 0, 0, 0.1);
+            opacity: 0.9;
+            left: -350px; /* Start completely off-screen */
+        }
+
+        .cloud::after, .cloud::before {
+            content: "";
+            position: absolute;
+            background: inherit;
+            border-radius: inherit;
+        }
+
+        .cloud::after {
+            width: 120px;
+            height: 120px;
+            top: -40px;
+            left: 40px;
+        }
+
+        .cloud::before {
+            width: 160px;
+            height: 160px;
+            top: -70px;
+            left: 120px;
+        }
+
+        /* CLOUD MOVEMENT - LEFT TO RIGHT */
+        @keyframes moveClouds {
+            0% { transform: translateX(-350px); } /* Start far left */
+            100% { transform: translateX(110vw); } /* Move across the screen */
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Create Your Dream</h1>
+    <button class="start-button" onclick="startDream()">Start</button>
+
+    <script>
+        function startDream() {
+            window.location.href = "index.html";
+        }
+
+        // Generate clouds with better speed & instant movement
+        function createClouds(numClouds) {
+            const body = document.body;
+            let spacing = window.innerHeight / numClouds; // Evenly distribute clouds
+
+            for (let i = 0; i < numClouds; i++) {
+                let cloud = document.createElement("div");
+                cloud.classList.add("cloud");
+
+                // Random Y position while ensuring even spacing
+                let randomY = i * spacing + Math.random() * (spacing / 2);
+
+                // Avoid center section (text/button)
+                if (randomY > window.innerHeight * 0.3 && randomY < window.innerHeight * 0.7) {
+                    randomY = Math.random() > 0.5 ? window.innerHeight * 0.15 : window.innerHeight * 0.85;
+                }
+
+                cloud.style.top = `${randomY}px`;
+                cloud.style.animation = `moveClouds ${Math.random() * 10 + 12}s linear infinite`; // Smooth speed
+                cloud.style.animationDelay = `-${Math.random() * 5}s`; // No delay at start, staggered effect
+
+                body.appendChild(cloud);
+            }
+        }
+
+        // Generate 20 clouds for a fuller effect
+        document.addEventListener("DOMContentLoaded", () => createClouds(20));
+    </script>
+</body>
+</html>
